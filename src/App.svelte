@@ -1,30 +1,54 @@
 <script>
-	export let name;
+  import Main from './Main.svelte';
+  import Select from './Select.svelte';
+  import Game from './Game.svelte';
+
+  const screens = Object.freeze({
+    'Main': 'Main',
+    'Select': 'Select',
+    'Game': 'Game'
+  });
+
+  let screen = screens.Main;
+  let selectedPlayers = 0;
+  let player1 = '';
+
+  function onSelPlayers({ detail: { type } }) {
+    selectedPlayers = type;
+    screen = screens.Select;
+  }
+
+  function onSelPlayer1({ detail: { type } }) {
+    player1 = type;
+    screen = screens.Game;
+  }
+
+  function reset() {
+    screen = screens.Main;
+  }
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <section class="game">
+    <header class="header">
+      <h1>Tic Tac Toe Game!</h1>
+    </header>
+    
+    {#if screen === screens.Main}
+      <Main on:selPlayers={onSelPlayers} />
+    {:else if screen === screens.Select}
+      <Select on:play={onSelPlayer1} />
+    {:else if screen === screens.Game}
+      <Game 
+        selectedPlayers={selectedPlayers} 
+        player1={player1} 
+        on:reset={reset}
+        />
+    {/if}
+  </section>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>
