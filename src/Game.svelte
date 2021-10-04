@@ -79,6 +79,7 @@
       winCells = [];
       activateShowBegin();
       init();
+      diffHard = diffHard ? 0 : 1;
     }, 3000);
   }
 
@@ -363,9 +364,9 @@
   {:else}
     <div class="container">
       <header>
-        <h2 class="text">
+        <h2 class="text head">
           {#if phase === phases.end}
-          <span class="over">The game is over!</span>
+          <span>The game is over!</span>
           {:else}
           <span>Turn: </span>
           {/if}
@@ -451,13 +452,11 @@
       flex-direction: column-reverse;
     }
 
-    .text {
+    .head {
       margin-left: 0;
       margin-block: 2rem;
+      font-size: 1.5rem;
     }
 
-    .over {
-      display: block;
-    }
   }
 </style>
