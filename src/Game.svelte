@@ -29,6 +29,8 @@
   let result = results.Draw;
   let cells = [];
   let matrix = [];
+  let showBegin = true;
+  let winCells = [];
 
   $: getHeader = () => {
     switch (phase) {
@@ -48,19 +50,36 @@
     }
   };
 
-  let i = -1;
-  for (let j = 0; j < 9; j++) {
-    const jmod = j % 3;
-    if (jmod === 0) {
-      matrix.push([]);
-      i++;
+  function init() {
+    let i = -1;
+    for (let j = 0; j < 9; j++) {
+      const jmod = j % 3;
+      if (jmod === 0) {
+        matrix.push([]);
+        winCells.push([]);
+        i++;
+      }
+      cells.push([i, jmod]);
+      matrix[i][jmod] = "";
+      winCells[i][jmod] = false;
     }
-    cells.push([i, jmod]);
-    matrix[i][jmod] = "";
   }
+
+  init();
 
   function changeCell(x, y, value) {
     matrix[x][y] = value;
+  }
+
+  function reboot() {
+    setTimeout(() => {
+      phase = phases.play1;
+      matrix = [];
+      cells = [];
+      winCells = [];
+      activateShowBegin();
+      init();
+    }, 3000);
   }
 
   function endGame(winner = "") {
@@ -75,6 +94,8 @@
     } else {
       result = results.Draw;
     }
+
+    reboot();
   }
 
   function checkGame() {
@@ -89,32 +110,77 @@
     }
 
     let value = matrix[0][0];
+    
     if (
       value !== "" &&
       ((value === matrix[0][1] && value === matrix[0][2]) ||
         (value === matrix[1][0] && value === matrix[2][0]) ||
         (value === matrix[1][1] && value === matrix[2][2]))
     ) {
+      
+      winCells[0][0] = true;
+      if (value === matrix[0][1] && value === matrix[0][2]) {
+        
+        winCells[0][1] = true;
+        winCells[0][2] = true;
+      } else if(value === matrix[1][0] && value === matrix[2][0]) {
+        
+        winCells[1][0] = true;
+        winCells[2][0] = true;
+      } else {
+        
+        winCells[1][1] = true;
+        winCells[2][2] = true;
+      }
+
       return endGame(value);
     }
+
     value = matrix[0][1];
     if (value !== "" && value === matrix[1][1] && value === matrix[2][1]) {
+      
+      winCells[0][1] = true;
+      winCells[1][1] = true;
+      winCells[2][1] = true;
       return endGame(value);
     }
+
     value = matrix[0][2];
     if (
       value !== "" &&
       ((value === matrix[1][1] && value === matrix[2][0]) ||
         (value === matrix[1][2] && value === matrix[2][2]))
     ) {
+      
+      winCells[0][2] = true;
+      if (value === matrix[1][1] && value === matrix[2][0]) {
+        
+        winCells[1][1] = true;
+        winCells[2][0] = true; 
+      } else {
+        
+        winCells[1][2] = true;
+        winCells[2][2] = true;
+      }
+
       return endGame(value);
     }
+
     value = matrix[1][0];
     if (value !== "" && value === matrix[1][1] && value === matrix[1][2]) {
+      
+      winCells[1][0] = true;
+      winCells[1][1] = true;
+      winCells[1][2] = true;
       return endGame(value);
     }
+    
     value = matrix[2][0];
     if (value !== "" && value === matrix[2][1] && value === matrix[2][2]) {
+      
+      winCells[2][0] = true;
+      winCells[2][1] = true;
+      winCells[2][2] = true;
       return endGame(value);
     }
 
@@ -281,10 +347,14 @@
     dispatch("reset");
   }
 
-  let showBegin = true;
-  setTimeout(() => {
-    showBegin = false;
-  }, 2000);
+  function activateShowBegin() {
+    showBegin = true;
+    setTimeout(() => {
+      showBegin = false;
+    }, 2000);
+  }
+
+  activateShowBegin();
 </script>
 
 <div class="game">
@@ -311,6 +381,7 @@
           <Cell
             idx={cell}
             value={matrix[cell[0]][cell[1]]}
+            win={winCells[cell[0]][cell[1]]}
             on:cellTouch={onCellTouch}
           />
         {/each}

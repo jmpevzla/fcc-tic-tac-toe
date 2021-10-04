@@ -1,6 +1,7 @@
 <script>
   export let value = '';
   export let idx = [];
+  export let win = false;
   
   import { createEventDispatcher } from 'svelte';
 
@@ -13,18 +14,22 @@
   }
 </script>
 
-<div class="cell" on:click={cellTouch}>
+<div class={win ? 'cell win' : 'cell'} on:click={cellTouch}>
   <p class={value !== '' && 'active'}>{value}</p>
 </div>
 
 <style>
    .cell {
-    background-color: black;
-    color: white;
+    background-color: #000;
+    color: #fff;
     text-align: center;
     padding-inline: 2rem;
     padding-top: 1.2rem;
     min-height: 18vh;
+  }
+
+  .win > p {
+    color: #f00;
   }
 
   .active {
