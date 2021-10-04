@@ -29,26 +29,56 @@
 </script>
 
 <main>
-  <section class="game">
-    <header class="header">
-      <h1>Tic Tac Toe Game!</h1>
-    </header>
-    
-    {#if screen === screens.Main}
-      <Main on:selPlayers={onSelPlayers} />
-    {:else if screen === screens.Select}
-      <Select on:play={onSelPlayer1} />
-    {:else if screen === screens.Game}
-      <Game 
-        selectedPlayers={selectedPlayers} 
-        player1={player1} 
-        on:reset={reset}
-        />
+  <section class="tic-tac-toe">
+    {#if screen !== screens.Game}
+      <header class="header">
+        <h1 class="title">Tic Tac Toe Game!</h1>
+      </header>
     {/if}
+    
+    <div class="container">
+      {#if screen === screens.Main}
+        <Main on:selPlayers={onSelPlayers} />
+      {:else if screen === screens.Select}
+        <Select on:play={onSelPlayer1} />
+      {:else if screen === screens.Game}
+        <Game 
+          selectedPlayers={selectedPlayers} 
+          player1={player1} 
+          on:reset={reset}
+          />
+      {/if}
+    </div>
   </section>
 </main>
 
 <style>
+  .title {
+    font-size: 5rem;
+    font-style: italic;
+    text-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff;
+  }
+  .container {
+    min-height: calc(100vh - 14rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: container 2s ease forwards;
+  }
 
+  @keyframes container {
+    0% {
+      transform: scale(0) rotate(180deg);
 
+    }
+    100% {
+      transform: scale(1) rotate(360deg);
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .container {
+      min-height: calc(100vh - 25rem);
+    }
+  }
 </style>

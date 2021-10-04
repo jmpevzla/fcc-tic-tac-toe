@@ -280,32 +280,43 @@
   function onResetClick() {
     dispatch("reset");
   }
+
+  let showBegin = true;
+  setTimeout(() => {
+    showBegin = false;
+  }, 2000);
 </script>
 
 <div class="game">
-  <p>Begin Game! {selectedPlayers}-{player1}</p>
+  {#if showBegin}
+    <p class="text begin">Begin Game!</p>
+  {:else}
+    <div class="container">
+      <header>
+        <h2 class="text">
+          {#if phase === phases.end}
+          <span class="over">The game is over!</span>
+          {:else}
+          <span>Turn: </span>
+          {/if}
+          {getHeader()}
+        </h2>
+        <div class="btn-container">
+          <button class="player" on:click={onResetClick}>Reset Game!</button>
+        </div>
+      </header>
 
-  <header>
-    <h2>
-      {#if phase === phases.end}
-        <span>The game is over!</span>
-      {:else}
-        <span>Turn: </span>
-      {/if}
-      {getHeader()}
-    </h2>
-    <button on:click={onResetClick}>Reset Game!</button>
-  </header>
-
-  <div class="board">
-    {#each cells as cell, i (i)}
-      <Cell
-        idx={cell}
-        value={matrix[cell[0]][cell[1]]}
-        on:cellTouch={onCellTouch}
-      />
-    {/each}
-  </div>
+      <div class="board">
+        {#each cells as cell, i (i)}
+          <Cell
+            idx={cell}
+            value={matrix[cell[0]][cell[1]]}
+            on:cellTouch={onCellTouch}
+          />
+        {/each}
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -313,5 +324,69 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
+    background-color: #fff;
+    min-height: calc(100vh - 15rem);
+    font-size: 12.9vh;
+    min-width: calc(100vw - 15rem);
+  }
+
+  header {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .player {
+    min-width: auto;
+    font-size: 1.5rem;
+  }
+
+  .btn-container {
+    margin-left: auto;
+  }
+
+  .text {
+    margin-left: 5vw;
+  }
+
+  .begin {
+    margin-left: 0;
+  }
+
+  .container {
+    animation: container 2s ease forwards;
+  }
+
+  @keyframes container {
+    0% {
+      transform: scale(.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .board {
+      font-size: 7vh;
+      min-height: calc(100vh - 20rem);
+      min-width: calc(100vw - 5rem);
+    }
+    
+    .btn-container {
+      margin-left: 0;
+    }
+
+    header {
+      flex-direction: column-reverse;
+    }
+
+    .text {
+      margin-left: 0;
+      margin-block: 2rem;
+    }
+
+    .over {
+      display: block;
+    }
   }
 </style>

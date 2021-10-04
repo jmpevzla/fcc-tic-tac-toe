@@ -13,15 +13,37 @@
   }
 </script>
 
-<div class="cell" on:click={cellTouch}>{value}</div>
+<div class="cell" on:click={cellTouch}>
+  <p class={value !== '' && 'active'}>{value}</p>
+</div>
 
 <style>
    .cell {
     background-color: black;
     color: white;
-    min-height: 15rem;
     text-align: center;
-    padding: 2rem;
-    font-size: 10rem;
+    padding-inline: 2rem;
+    padding-top: 1.2rem;
+    min-height: 18vh;
   }
+
+  .active {
+    animation: cell 1s ease-in forwards;
+  }
+
+  @keyframes cell {
+    0% {
+      transform: scale(0.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @media screen and (max-width: 450px) {
+    .cell {
+      padding-top: 6rem;
+    }
+  }
+
 </style>

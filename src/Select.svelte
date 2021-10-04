@@ -11,8 +11,11 @@
 </script>
 
 <div class="selectXO">
-  <h2>Player 1!</h2>
-  <p>Do you want play with X or with O?</p>
+  <div class="text">
+    <h2>Player 1!</h2>
+    <p>Do you want play <span>with X or with O?</span></p>
+  </div>
+  
   <button class="player" on:click={() => play('X')}>
     X
   </button>
@@ -20,3 +23,11 @@
     O
   </button>
 </div>
+
+<style>
+  @media screen and (max-width: 450px) {
+    span {
+      display: block;
+    }
+  }
+</style>
