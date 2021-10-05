@@ -23,8 +23,7 @@
     Draw: "Draw",
   });
 
-  const diffHard = Math.floor(Math.random() * 2);
-  
+  let diffHard = Math.floor(Math.random() * 2);
   let phase = phases.play1;
   let result = results.Draw;
   let cells = [];

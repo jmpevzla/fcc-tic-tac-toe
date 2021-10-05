@@ -20,11 +20,11 @@
 
 <style>
    .cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #000;
     color: #fff;
-    text-align: center;
-    padding-inline: 2rem;
-    padding-top: 1.2rem;
     min-height: 18vh;
   }
 
@@ -42,12 +42,6 @@
     }
     100% {
       transform: scale(1);
-    }
-  }
-  
-  @media screen and (max-width: 450px) {
-    .cell {
-      padding-top: 6rem;
     }
   }
 
