@@ -33,7 +33,7 @@
   }
 
   .active {
-    animation: cell 1s ease-in forwards;
+    animation: cell .25s ease-in forwards;
   }
 
   @keyframes cell {

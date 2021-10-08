@@ -63,16 +63,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: container 2s ease forwards;
+    animation: container 1.5s ease forwards;
   }
 
   @keyframes container {
     0% {
-      transform: scale(0) rotate(180deg);
+      transform: scale(0);
 
     }
     100% {
-      transform: scale(1) rotate(360deg);
+      transform: scale(1);
     }
   }
 

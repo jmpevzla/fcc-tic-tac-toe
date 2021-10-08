@@ -76,7 +76,6 @@
       matrix = [];
       cells = [];
       winCells = [];
-      activateShowBegin();
       init();
       diffHard = diffHard ? 0 : 1;
     }, 3000);
@@ -351,7 +350,7 @@
     showBegin = true;
     setTimeout(() => {
       showBegin = false;
-    }, 2000);
+    }, 1000);
   }
 
   activateShowBegin();
@@ -417,6 +416,8 @@
 
   .text {
     margin-left: 5vw;
+    animation: none;
+    transform: scale(1.5);
   }
 
   .begin {
